@@ -1,0 +1,37 @@
+--- a/app/build.gradle.kts
++++ b/app/build.gradle.kts
+@@ -12,11 +12,11 @@
+ 
+     defaultConfig {
+         ndk { abiFilters += listOf("arm64-v8a") }
+-        applicationId = "com.fcl.plugin.mobileglues"
++        applicationId = "com.dany96838.render.pocox7pro"
+         minSdk = 26
+         targetSdk = 36
+         versionCode = 2000
+-        versionName = "2.0.0"
++        versionName = "0.2.0-poco-experimental"
+ 
+         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+     }
+@@ -32,8 +32,8 @@
+ 
+     buildTypes {
+         release {
+-            signingConfig = signingConfigs.getByName("release")
+-            isMinifyEnabled = true
++            signingConfig = signingConfigs.getByName("debug")
++            isMinifyEnabled = false
+             proguardFiles(
+                 getDefaultProguardFile("proguard-android-optimize.txt"),
+                 "proguard-rules.pro"
+@@ -41,10 +41,10 @@
+ 
+         configureEach {
+-            resValue("string","app_name","MobileGlues")
++            resValue("string","app_name","Render POCO X7 Pro (Experimental)")
+ 
+-            manifestPlaceholders["des"] = "MobileGlues (OpenGL 4.0, 1.17+)"
+-            manifestPlaceholders["renderer"] = "MobileGlues:libmobileglues.so:libmobileglues.so"
++            manifestPlaceholders["des"] = "Render POCO X7 Pro experimental (MobileGlues fork)"
++            manifestPlaceholders["renderer"] = "RenderPOCOX7Pro:libmobileglues.so:libmobileglues.so"
