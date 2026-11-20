@@ -1,0 +1,48 @@
+name: POCO arm64 baseline experimental
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android toolchain
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0' 'ndk;27.3.13750724' 'cmake;3.22.1'
+      - name: Prepare pinned upstream source
+        run: python3 scripts/prepare.py
+      - name: Build debug APK
+        working-directory: work/plugin
+        shell: bash
+        run: |
+          set -o pipefail
+          chmod +x gradlew
+          ./gradlew --no-daemon :app:assembleDebug 2>&1 | tee ../gradle-build.log
+      - name: Validate and collect APK
+        run: python3 scripts/collect.py
+      - name: Verify APK signature
+        shell: bash
+        run: |
+          set -o pipefail
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs artifacts/*.apk | tee artifacts/signature.txt
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: poco-arm64-baseline-experimental
+          path: artifacts/
+          retention-days: 14
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: android-build-failure-log
+          path: work/gradle-build.log
+          retention-days: 7
+          if-no-files-found: ignore
