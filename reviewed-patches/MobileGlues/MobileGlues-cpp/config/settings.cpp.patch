@@ -1,0 +1,25 @@
+--- a/MobileGlues/MobileGlues-cpp/config/settings.cpp
++++ b/MobileGlues/MobileGlues-cpp/config/settings.cpp
+@@ -143,17 +143,14 @@
+     LOG_D("GPU: %s", gpu_cstr ? gpu_cstr : "(unknown)")
+ 
+     int hasVk12 = hasVulkan12();
+-    int isQcom = isAdreno(gpu_cstr);
+-    int is730 = isAdreno730(gpu_cstr);
+-    int is740 = isAdreno740(gpu_cstr);
+-    int is830 = isAdreno830(gpu_cstr);
+     bool isANGLESupported = checkIfANGLESupported(gpu_cstr);
++    LOG_V("[RenderPOCO v0.2.0] GPU = %s; automatic ANGLE eligible = %d",
++          gpu_cstr, static_cast<int>(isANGLESupported))
++    if (gpuString.find("Mali-G720") == std::string::npos) {
++        LOG_W_FORCE("[RenderPOCO] Target Mali-G720 not identified; automatic ANGLE remains off. Explicit backend options are preserved.")
++    }
+ 
+     LOG_D("Has Vulkan 1.2? = %s", hasVk12 ? "true" : "false")
+-    LOG_D("Is Adreno? = %s", isQcom ? "true" : "false")
+-    LOG_D("Is Adreno 730? = %s", is730 ? "true" : "false")
+-    LOG_D("Is Adreno 740? = %s", is740 ? "true" : "false")
+-    LOG_D("Is Adreno 830? = %s", is830 ? "true" : "false")
+     LOG_D("Is ANGLE supported? = %s", isANGLESupported ? "true" : "false")
+ 
+     switch (angleConfig) {
