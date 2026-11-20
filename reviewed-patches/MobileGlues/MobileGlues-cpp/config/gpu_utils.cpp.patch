@@ -1,0 +1,39 @@
+--- a/MobileGlues/MobileGlues-cpp/config/gpu_utils.cpp
++++ b/MobileGlues/MobileGlues-cpp/config/gpu_utils.cpp
+@@ -141,32 +141,11 @@
+     return renderer;
+ }
+ 
+-int isAdreno(const char* gpu) {
+-    //    const char* gpu = getGPUInfo();
+-    if (!gpu) return 0;
+-    return strstr(gpu, "Adreno") != nullptr;
+-}
+-
+-int isAdreno740(const char* gpu) {
+-    //    const char* gpu = getGPUInfo();
+-    if (!gpu) return 0;
+-    return isAdreno(gpu) && (strstr(gpu, "740") != nullptr);
+-}
+-
+-int isAdreno730(const char* gpu) {
+-    //    const char* gpu = getGPUInfo();
+-    if (!gpu) return 0;
+-    return isAdreno(gpu) && (strstr(gpu, "730") != nullptr);
+-}
+-
++// Specialized distribution: no Adreno model classification.
++// Unknown renderers retain a conservative automatic ANGLE decision;
++// explicit ForceEnable/ForceDisable options in settings.cpp remain intact.
+ bool checkIfANGLESupported(const char* gpu) {
+-    return !isAdreno730(gpu) && !isAdreno740(gpu) && hasVulkan12();
+-}
+-
+-int isAdreno830(const char* gpu) {
+-    //    const char* gpu = getGPUInfo();
+-    if (!gpu) return 0;
+-    return isAdreno(gpu) && (strstr(gpu, "830") != nullptr);
++    return gpu != nullptr && strstr(gpu, "Mali-G720") != nullptr && hasVulkan12();
+ }
+ 
+ static std::optional<int> hasVk12;
