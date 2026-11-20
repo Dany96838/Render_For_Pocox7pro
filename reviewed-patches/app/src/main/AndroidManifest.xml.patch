@@ -1,0 +1,28 @@
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -29,7 +29,7 @@
+     </queries>
+ 
+     <application
+-        android:name=".MGApplication"
++        android:name="com.fcl.plugin.mobileglues.MGApplication"
+         android:allowBackup="true"
+         android:icon="@mipmap/ic_launcher"
+         android:label="@string/app_name"
+@@ -37,7 +37,7 @@
+         android:supportsRtl="false"
+         android:theme="@style/Theme.MobileGlues">
+         <activity
+-            android:name=".MainActivity"
++            android:name="com.fcl.plugin.mobileglues.MainActivity"
+             android:exported="true"
+             android:theme="@style/Theme.MobileGlues">
+             <intent-filter>
+@@ -52,7 +52,7 @@
+           MG_ANGLE_DIR 与配置，而库离不开进程——所以每次查询用一个新进程，查完即弃。
+         -->
+         <service
+-            android:name=".MgQueryService"
++            android:name="com.fcl.plugin.mobileglues.MgQueryService"
+             android:exported="false"
+             android:process=":mgquery" />
