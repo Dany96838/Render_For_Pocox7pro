@@ -1,0 +1,75 @@
+Render POCO X7 Pro v0.2.0 — ETAPA EXPERIMENTAL
+
+O QUE ESTE PACOTE É
+Arquivos para uma nova compilação no repositório
+https://github.com/Dany96838/Render_For_Pocox7pro
+NÃO contém APK v0.2 compilado. Scripts baixam as fontes públicas com commits
+fixados e aplicam mudanças rastreáveis; precisa de internet.
+O build anterior foi confirmado pelo pacote que você enviou. O novo ainda precisa
+ser compilado no GitHub e testado. Não há ganho de FPS medido.
+
+MUDANÇAS DENTRO DO NOVO APK, SE A COMPILAÇÃO CONCLUIR
+1. Removidas do core as funções isAdreno, isAdreno730, isAdreno740 e isAdreno830,
+   com suas chamadas e logs de classificação no init_settings.
+   Esses classificadores não desenham os frames. Removê-los especializa o código,
+   mas não demonstra aumento de FPS. Código Kotlin de informações/UI preservado.
+2. ANGLE automático só é considerado elegível se o renderer contiver Mali-G720
+   e o teste existente detectar Vulkan 1.2. Isso não garante que ANGLE carrega.
+   Mantidas as opções explícitas de ligar/desligar ANGLE. Não alteradas as opções
+   padrão do usuário, nem forçado um backend. Se a identificação vier vazia ou
+   diferente, a decisão automática fica conservadora e registra aviso no log.
+3. Compilação Release do código nativo em vez de Debug, aproveitando as flags
+   e a seleção LTO já existentes no upstream. Não adicionamos fast-math nem
+   novas flags de precisão. Possível diferença de desempenho exige comparação.
+   Minificação do app desligada para conservar diagnóstico. Assinatura de teste,
+   não uma chave de produção. O pacote NÃO é release oficial do MobileGlues.
+4. Identidade de instalação própria: com.dany96838.render.pocox7pro.
+   Nome do app: Render POCO X7 Pro (Experimental).
+   Rótulo do renderer: RenderPOCOX7Pro.
+   Namespace Kotlin/JNI preservado; componentes manifest qualificados.
+   Isso permite identidade distinta do oficial; a descoberta pelo FCL ainda
+   precisa ser verificada no aparelho. Não foi alterado o pacote do FCL.
+5. Log de perfil com renderer detectado e elegibilidade automática de ANGLE.
+6. Restrição arm64-v8a da etapa anterior preservada.
+
+O QUE NÃO MUDOU
+Sem remoção de barreiras, glFlush, glFinish ou correções de depth-copy.
+Sem alteração de shaders, precisão, formatos, compute, SSBOs ou tradução GLSL.
+GLES e ANGLE preservados; PanVK não integrado.
+Sem suporte novo comprovado ao Ray, Minecraft 1.21.11 ou outros shaders.
+Não implementamos todo o pedido nesta etapa. Desempenho sustentado requer medidas
+do aparelho; número de OpenGL anunciado não é prova de capacidade.
+
+COMO COMPILAR
+1. Os arquivos já estão organizados no repositório. Não é necessário reenviar os
+   scripts ou patches manualmente.
+2. Abra Actions > POCO v0.2 experimental Release > Run workflow > main.
+   Confira quotas/cobrança da conta antes de executar. Não há execução em push.
+3. Baixe o artifact poco-v0.2-experimental-release se concluir.
+   Se falhar, envie o link da execução ou o artifact de log de falha.
+4. Envie o link do artifact concluído para verificarmos APK/manifest/assinatura
+   antes de teste no FCL. Não desinstale o plugin oficial nem altere o sistema.
+
+ATENÇÃO SOBRE TESTES E RESTAURAÇÃO
+A identidade nova não isola automaticamente /sdcard/MG e seus arquivos.
+Configurações/caches MobileGlues ainda podem ser compartilhados. Faça backup de
+configurações antes de mudar opções; não apague dados nem copie logs com dados
+pessoais para links públicos. Se o renderer novo não aparecer no FCL, pare e
+envie o resultado, sem remover o original.
+Assinaturas debug entre runners podem variar. Próximas atualizações do fork
+precisam de chave estável própria; isso ainda não foi implementado.
+
+VALIDAÇÃO DECLARADA NO PACOTE ORIGINAL
+Hash do APK anterior confirmado. Patches aplicados nas fontes do artefato
+anterior. Sintaxe Python e YAML conferida. Política ANGLE testada em C++ host
+para Mali-G720, outras GPUs, string vazia/nula e Vulkan indisponível.
+Nenhum build Android v0.2 ou teste de renderização foi executado neste sandbox.
+Patches para revisão estão em reviewed-patches/ e serão coletados no build.
+
+FONTES E LICENÇAS
+Plugin: f5105e4ddd1752cccdcc6421c402960d40ec3d9d
+Core: f56af31d3e490d95808b3adc4ace20234249a37a
+MobileGlues/plugin LGPL-2.1, dependências com licenças próprias.
+Os avisos upstream são preservados e as fontes correspondentes coletadas no
+artifact do build. Correspondência desta base ao release estável 2.0.0 ainda
+não comprovada. Actions usam tags; reprodutibilidade completa não está garantida.
