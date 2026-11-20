@@ -1,0 +1,17 @@
+--- a/MobileGlues/MobileGlues-cpp/config/gpu_utils.h
++++ b/MobileGlues/MobileGlues-cpp/config/gpu_utils.h
+@@ -18,14 +18,6 @@
+ {
+ #endif
+ 
+-    int isAdreno(const char* gpu);
+-
+-    int isAdreno730(const char* gpu);
+-
+-    int isAdreno740(const char* gpu);
+-
+-    int isAdreno830(const char* gpu);
+-
+     int hasVulkan12();
+ 
+     bool checkIfANGLESupported(const char* gpu);
